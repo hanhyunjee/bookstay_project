@@ -1,0 +1,24 @@
+--drop table common;
+create table common(
+    commonId number(11), /* 커뮤니게시판 No */
+    memberId varchar(20) NOT NULL, /* 회원No */
+    title VARCHAR2(50) NOT NULL, /* 제목 */
+	boardDate DATE default sysdate, /* 날짜 */
+	content VARCHAR2(500) NOT NULL, /* 내용 */
+    viewCnt number(11) default 0, /* 조회수 */
+    imageFileName VARCHAR2(100), /* 이미지 파일 이름 */
+    originNo number(11), /* 원글 번호 */
+    groupOrd number(11), /* 답글 체크용 */
+    groupLayer number(11), /* 답글 체크용 */
+    constraint pk_common primary key(commonId)
+);
+
+--drop sequence seq_g_board_boardId;
+create sequence seq_common_commonId
+ START WITH  1
+INCREMENT BY 1;
+
+Insert into common(commonId, memberId, title, boardDate, content, originNo, groupOrd, groupLayer) values (seq_common_commonId.nextval, 'han', '1', sysdate, '1',seq_common_commonId.nextval, 0,0);
+Insert into common(commonId, memberId, title, boardDate, content, originNo, groupOrd, groupLayer) values (seq_common_commonId.nextval, 'kim', '2', sysdate, '미움받을 용기 책 너무 좋아요',seq_common_commonId.nextval, 0,0);
+
+commit;

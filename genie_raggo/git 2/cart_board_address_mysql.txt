@@ -1,0 +1,60 @@
+create table address(
+    id varchar(20) not null,
+    addr_num varchar(20) not null,
+    addr_road varchar(100) not null,
+    addr_detail varchar(100)
+);
+
+
+create table g_board(
+    boardId bigint auto_increment,
+    memberId varchar(20) NOT NULL,
+    title VARCHAR(50) NOT NULL,
+    boardDate datetime default (current_date),
+    content VARCHAR(500) NOT NULL,
+    viewCnt bigint default 0,
+    imageFileName VARCHAR(100),
+    originNo bigint default NULL,
+    groupOrd bigint default NULL,
+    groupLayer bigint default NULL,
+	primary key (`boardId`)
+)engine=InnoDB auto_increment=1 default charset=utf8mb4;
+
+
+-- drop table g_board;
+-- DATE_FORMAT('now()',''%y/%m/%d'')
+
+Insert into g_board(boardId, memberId, title, boardDate, content, originNo, groupOrd, groupLayer)
+values ((select *from (select max(boardId)+1 from g_board) next), "cnh0214" , "1", sysdate(), "책배송좀", (boardId)+1, 0,0);
+
+Insert into g_board(boardId, memberId, title, boardDate, content, originNo, groupOrd, groupLayer)
+values ((select *from (select max(boardId)+1 from g_board) next), "cnh0214" , "2", sysdate(), "책언제와요", (select *from (select max(boardId)+1 from g_board) next), 0,0);
+
+Insert into g_board(boardId, memberId, title, boardDate, content, originNo, groupOrd, groupLayer)
+values ((select *from (select max(boardId)+1 from g_board) next), "cnh0214" , "3", sysdate(), "테스트입니다", (select *from (select max(boardId)+1 from g_board) next), 0,0);
+
+Insert into g_board(boardId, memberId, title, boardDate, content, originNo, groupOrd, groupLayer)
+values ((select *from (select max(boardId)+1 from g_board) next), "hhh" , "4", sysdate(), "테스트입니다", (select *from (select max(boardId)+1 from g_board) next), 0,0);
+
+
+select * from g_board;
+
+
+
+
+
+create table cart(
+    id bigint not null,
+    grandTotal int not null
+);
+
+
+# drop table g_board;
+
+
+
+# select * from member order by memberNO asc;
+
+
+
+

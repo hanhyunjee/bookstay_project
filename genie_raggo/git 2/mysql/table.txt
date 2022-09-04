@@ -1,0 +1,103 @@
+show databases;
+use bg;
+drop table member;
+/*회원정보*/
+-- SQLINES LICENSE FOR EVALUATION USE ONLY
+create table address(
+    id varchar(20) not null,
+    addr_num varchar(20) not null,
+    addr_road varchar(100) not null,
+    addr_detail varchar(100)
+);
+
+-- SQLINES LICENSE FOR EVALUATION USE ONLY
+create table member(
+    memberNo bigint not null,
+    name varchar(20) not null,
+    jumin varchar(20) not null,
+    id varchar(20) not null,
+    password varchar(20) not null,
+    pwHint varchar(50),
+    pwHintAns varchar(20),
+    email varchar(50) not null,
+    receive_email tinyint not null,
+    authority varchar(20) not null,
+    houseNum varchar(20),
+    phoneNum varchar(20) not null,
+    enabled tinyint not null,
+    cartId_mem bigint,
+    point int,
+    acc_Price int
+);
+
+
+CREATE UNIQUE INDEX PK_member
+	ON member (
+		memberNo ASC
+	);
+/* 먼저 회원번호가 0인 admin을 db에 넣고, 
+(select *from (select max(memberNo)+1 from member) next) 시퀀스를 실행 */
+
+insert into member values(0, 'admin2', '000000-0000000', 'admin', 'admin', 'z', 'z',
+'admin@admin', 0, 'ROLE_ADMIN', '020000000','01000000000',1,0,0,0);
+
+/*insert into member values((select *from (select max(memberNo)+1 from member) next), 'admin2', '000000-0000000', 'admin', 'admin', 'z', 'z',
+'admin@admin', 0, 'ROLE_ADMIN', '020000000','01000000000',1,0,0,0);*/
+
+select * from member;
+/* 회원정보 끝 */
+
+
+/* QnA 미완성*/
+create table g_board(
+    boardId bigint auto_increment, /* 게시판 No */
+    memberId varchar(20) NOT NULL, /* 회원No */
+    title VARCHAR(50) NOT NULL, /* 제목 */
+	boardDate datetime default (current_date), /* 날짜 */
+	content VARCHAR(500) NOT NULL, /* 내용 */
+    viewCnt bigint default 0, /* 조회수 */
+    imageFileName VARCHAR(100), /* SQLINES DEMO *** 이름 */
+    originNo bigint, /* 원글 번호 */
+    groupOrd bigint, /* 답글 체크용 */
+    groupLayer bigint, /* 답글 체크용 */
+    constraint pk_g_board primary key(boardId)
+);
+
+Insert into g_board(boardId, memberId, title, boardDate, content, originNo, groupOrd, groupLayer) 
+values (boardId, 'cnh0214', '1', sysdate(), '1',boardId, 0,0);
+select * from g_board;
+/*QnA 미완성 끝*/
+
+
+/*장바구니 상품 */
+drop table cartitem;
+create table cartitem(
+    id bigint not null,
+    quantity bigint not null,
+    totalPrice int not null,
+    cartId bigint,
+    bookNo bigint
+);
+
+/* 장바구니 상품 끝 */
+
+/* 구매내역 */
+create table history(
+	id varchar(20) not null,
+	name varchar(20) not null,
+	cartId bigint not null,
+	email varchar(50),
+	content varchar(200),
+	phoneNum varchar(30),
+	bookNo bigint not null,
+	price int not null,
+	quantity bigint not null,
+	grandTotal int not null,
+	addr_num varchar(20) not null,
+	addr_road varchar(60) not null,
+	addr_detail varchar(60) not null,
+	purchase_date datetime
+);
+
+/* 구매내역 끝*/
+    

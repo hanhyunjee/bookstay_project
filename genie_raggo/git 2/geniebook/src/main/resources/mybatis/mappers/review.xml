@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.review">
+	<resultMap id="reviewResult" type="reviewVO">
+		<result property="reviewId" column="reviewId" />
+		<result property="memberId" column="memberId" />
+		<result property="bookNo" column="bookNo" />
+		<result property="reviewDate" column="reviewDate" />
+		<result property="content" column="content" />
+		<result property="rating" column="rating" />
+	</resultMap>
+	
+	<select id="selectReviewByBookNo" resultMap="reviewResult" parameterType="integer">
+	<![CDATA[
+		select * from review where bookNo = #{bookNo} order by reviewDate
+		  ]]>
+	</select>
+	
+	<insert id="insertReview" parameterType="reviewVO">
+		<![CDATA[
+		insert into review(
+			reviewId, memberId, reviewDate, content, bookNo, rating)
+			values((select * from (select max(reviewId) +1 from review) next), #{memberId}, sysdate(), #{content}, #{bookNo}, #{rating})
+		  ]]>
+	</insert>
+	
+	
+	<update id="updateReview" parameterType="reviewVO">
+		<![CDATA[
+		update review
+		set
+			content = #{content},
+			reviewDate = sysdate()
+		where reviewId = #{reviewId}
+		  ]]>
+	</update>
+	
+	<delete id="deleteReview" parameterType="integer">
+		<![CDATA[
+		delete from review
+		where reviewId = #{reviewId}
+		  ]]>
+	</delete>
+	
+	<!-- 책번호로 평균 평점 조회 (평점이 널이면 0) -->
+	<select id="selectRatingBybookNo" resultType="float" parameterType="integer">
+	 <![CDATA[
+	 select round(avg(rating),1) as AvgRating from review where bookNo = #{bookNo}
+	]]>
+  		
+	</select>
+	<!-- 평점에 참여한 사람 수 -->
+	<select id="selectRatingNum" resultType="integer" parameterType="integer">
+	<![CDATA[
+	 select count(bookNo) as ratingNum from review where bookNo = #{bookNo}
+	]]>
+	</select>
+</mapper>

@@ -1,0 +1,18 @@
+/*addHistory*/
+insert into history(id, name, cartId, email, content, phoneNum, bookNo, price, quantity, grandTotal, addr_num,
+    					addr_road, addr_detail, purchase_date, point)
+    					values(#{id}, #{name}, #{cartId}, #{email}, #{content}, #{phoneNum}, #{bookNo}, #{price},
+    						#{quantity}, #{grandTotal}, #{addr_num}, #{addr_road}, 
+    						#{addr_detail}, sysdate(), #{point})
+
+/*getHistoryById*/
+동일 
+
+/*getHistoryByIdByDate*/
+동일 
+
+/*deleteHistory*/
+동일
+
+/*updateStock*/
+동일

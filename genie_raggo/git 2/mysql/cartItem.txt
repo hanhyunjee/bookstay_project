@@ -1,0 +1,34 @@
+/*getCartItemsByCartId*/ 
+동일
+
+/*getCartItem*/
+동일
+
+/*addCartItem*/ 
+insert into cartItem(id, quantity, totalPrice, cartId, bookNo)
+ values((select *from (select max(id)+1 from cartItem) next), #{quantity}, #{totalPrice}, #{cartId}, #{bookNo})
+
+/*addCartItemQuantity*/
+update cartItem set quantity = 
+quantity+#{quantity}, totalPrice = (quantity+#{quantity})*#{price} where cartId=#{cartId} and bookNo=#{bookNo}
+
+/*isCartItemByBookNo*/
+select case count(*) when 1 then  'true'  when 0 then  'false' end
+		from cartItem
+		where cartId = #{cartId} and bookNo=#{bookNo}
+
+/*addCartItemQuantity*/
+동일
+
+/*minusCartItemQuantity*/
+동일
+
+/*deleteCartItem*/
+동일
+
+/*removeAll*/
+동일
+
+
+
+			        

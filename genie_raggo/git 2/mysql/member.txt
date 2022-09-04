@@ -1,0 +1,46 @@
+/* selectAllMemberList */
+ select * from member where id not like '%admin%'
+
+/*selectUserNameInfo*/
+ select * from member where name = #{name} and jumin = #{jumin}
+
+/*selectOverlappedID*/ 
+select case count(*) when 1 then  'true'  
+	   when 0 then  'false' end
+	   from member
+	   where id ='#{id}'  
+
+/*addMember*/
+insert into member(memberNo, name, jumin, id, password, pwHint, pwHintAns, email, receive_email, authority,
+     houseNum, phoneNum, enabled, cartId_mem, point,acc_Price)
+     values((select *from (select max(memberNo)+1 from member) next), #{name} , #{jumin}, #{id}, #{password}, #{pwHint}, #{pwHintAns},
+     #{email}, #{receive_email}, #{authority}, #{houseNum}, #{phoneNum}, #{enabled}, (select *from (select max(cartId_mem)+1 from cartitem) next), #{point}, #{acc_Price})
+
+/*selectUserInfo*/
+select *
+ from member
+where id = #{id}
+
+/*updateMember*/
+update member set password=#{password}, pwHint=#{pwHint}, pwHintAns=#{pwHintAns}, email=#{email},
+receive_email = #{receive_email}, houseNum=#{houseNum}, phoneNum=#{phoneNum} where id=#{id}
+
+/*deleteMember*/
+delete from member where id = #{id}
+
+/*updatePwdById*/
+update member set password=#{password} where id=#{id}
+
+/*addPoint*/
+update member set point= point+#{point} where id=#{id}
+
+/*addAcc_Price*/
+update member set acc_Price= acc_Price+#{acc_Price} where id=#{id}
+
+/*selectPointById */
+select point
+from member
+where id = #{id}
+
+/*deductPoint*/
+update member set point= point-#{point} where id=#{id}
